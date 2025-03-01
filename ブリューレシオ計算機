@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブリューレシオ計算機</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input {
+            font-size: 20px;
+            padding: 5px;
+            width: 80px;
+            text-align: center;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        p {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // パスワード入力ダイアログを表示
+        var password = prompt("パスワードを入力してください:");
+
+        // 許可されたパスワード
+        var correctPassword = "coffee123";
+
+        if (password !== correctPassword) {
+            // 間違っていた場合はアクセス拒否
+            document.body.innerHTML = "<h1>アクセス拒否</h1><p>正しいパスワードを入力してください。</p>";
+        } else {
+            // 正しいパスワードなら計算機を表示
+            document.body.innerHTML = `
+                <h2>ブリューレシオ計算機</h2>
+                <p>豆量（g）を入力してください：</p>
+                <input type="number" id="beans" value="14">
+                <button onclick="calculate()">計算</button>
+
+                <p id="bloom"></p>
+                <p id="water"></p>
+                <p id="yield"></p>
+
+                <script>
+                    function calculate() {
+                        let beans = parseFloat(document.getElementById("beans").value);
+                        let bloom = (beans / 14 * 20).toFixed(1);
+                        let water = (beans / 14 * 220).toFixed(1);
+                        let yield_amt = (beans / 14 * 160).toFixed(1);
+
+                        document.getElementById("bloom").innerHTML = \`☕ 蒸らし湯量: \${bloom} ml\`;
+                        document.getElementById("water").innerHTML = \`💧 注湯量: \${water} ml\`;
+                        document.getElementById("yield").innerHTML = \`🥤 抽出量: \${yield_amt} ml\`;
+                    }
+                <\/script>
+            `;
+        }
+    </script>
+</body>
+</html>
