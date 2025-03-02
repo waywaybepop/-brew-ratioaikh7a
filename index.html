@@ -5,45 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ブリューレシオ計算機</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Potta+One&display=swap');
 
         body {
             background-color: #121212;
-            color: #ddd;
-            font-family: 'Concert One', cursive;
+            color: #B0B0B0;
+            font-family: 'Potta One', cursive;
             text-align: center;
-            padding: 50px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* 透過された猫の背景 */
-        body::before {
-            content: "";
-            background: url('https://i.imgur.com/qbQ6J0B.png') no-repeat center center/contain;
-            opacity: 0.2;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
-            font-size: 2.5rem;
-            animation: fadeIn 1.2s ease-in-out;
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
 
-        input, button {
-            font-size: 1.5rem;
-            padding: 12px;
-            margin: 15px;
-            border: none;
-            border-radius: 10px;
+        p {
+            font-size: 1.5em;
         }
 
         input {
+            font-size: 1.5em;
+            padding: 10px;
+            border: 2px solid #B0B0B0;
+            background-color: #1E1E1E;
+            color: #ffffff;
+            text-align: center;
             width: 100px;
-            background-color: #333;
-            color: #fff;
+            border-radius: 10px;
+        }
+
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            background-color: #ff69b4;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s ease, background-color 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: #ff85c1;
+        }
+
+        #result {
+            font-size: 1.8em;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h2>ブリューレシオ計算機</h2>
+    <p>豆の量（g）を入力：</p>
+    <input type="number" id="beans" value="14">
+    <button onclick="calculate()">計算</button>
+    <p id="result"></p>
+
+    <script>
+        function calculate() {
+            let beans = parseFloat(document.getElementById("beans").value);
+            let water = (beans / 14 * 220).toFixed(1);
+            let extracted = (beans / 14 * 160).toFixed(1);
+            let resultText = `お湯の量: ${water} ml<br>抽出量: ${extracted} ml`;
+
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = resultText;
+            resultElement.style.opacity = 1;
+        }
+    </script>
+</body>
+</html>
