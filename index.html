@@ -5,69 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ブリューレシオ計算機</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
         body {
             background-color: #121212;
             color: #ddd;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Concert One', cursive;
             text-align: center;
             padding: 50px;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* 透過された猫の背景 */
+        body::before {
+            content: "";
+            background: url('https://i.imgur.com/qbQ6J0B.png') no-repeat center center/contain;
+            opacity: 0.2;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
         h2 {
-            font-size: 2rem;
-            animation: fadeIn 1s ease-in-out;
+            font-size: 2.5rem;
+            animation: fadeIn 1.2s ease-in-out;
         }
+
         input, button {
             font-size: 1.5rem;
-            padding: 10px;
-            margin: 10px;
+            padding: 12px;
+            margin: 15px;
             border: none;
             border-radius: 10px;
         }
+
         input {
-            width: 80px;
+            width: 100px;
             background-color: #333;
             color: #fff;
-            text-align: center;
-        }
-        button {
-            background-color: #ff4081;
-            color: #fff;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-        button:hover {
-            transform: scale(1.1);
-        }
-        p {
-            font-size: 1.5rem;
-        }
-        #result {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-    <h2>ブリューレシオ計算機</h2>
-    <p>豆の量（g）を入力：</p>
-    <input type="number" id="beans" value="14">
-    <button onclick="calculate()">計算</button>
-    <p id="result"></p>
-
-    <script>
-        function calculate() {
-            let beans = parseFloat(document.getElementById("beans").value);
-            let water = (beans / 14 * 220).toFixed(1);
-            let extraction = (beans / 14 * 160).toFixed(1);
-            document.getElementById("result").innerHTML = 
-                `お湯の量: ${water} ml<br> 抽出量: ${extraction} ml`;
-        }
-    </script>
-</body>
-</html>
