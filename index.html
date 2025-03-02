@@ -7,37 +7,49 @@
     <style>
         body {
             background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+            color: #ddd;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 50px;
         }
         h2 {
-            color: #bb86fc;
+            font-size: 2rem;
+            animation: fadeIn 1s ease-in-out;
         }
         input, button {
+            font-size: 1.5rem;
             padding: 10px;
             margin: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
         }
         input {
-            background-color: #333;
-            color: white;
             width: 80px;
+            background-color: #333;
+            color: #fff;
             text-align: center;
         }
         button {
-            background-color: #bb86fc;
-            color: white;
+            background-color: #ff4081;
+            color: #fff;
             cursor: pointer;
+            transition: transform 0.2s ease-in-out;
         }
         button:hover {
-            background-color: #9a67ea;
+            transform: scale(1.1);
+        }
+        p {
+            font-size: 1.5rem;
         }
         #result {
+            font-size: 2rem;
+            font-weight: bold;
             margin-top: 20px;
-            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -51,11 +63,10 @@
     <script>
         function calculate() {
             let beans = parseFloat(document.getElementById("beans").value);
-            let water = (beans / 14 * 220).toFixed(1); // お湯の量
-            let extraction = (water * 0.85).toFixed(1); // 抽出量 (約85%がコーヒーになる)
-
+            let water = (beans / 14 * 220).toFixed(1);
+            let extraction = (beans / 14 * 160).toFixed(1);
             document.getElementById("result").innerHTML = 
-                "お湯の量: " + water + " ml<br>抽出量: " + extraction + " ml";
+                `お湯の量: ${water} ml<br> 抽出量: ${extraction} ml`;
         }
     </script>
 </body>
