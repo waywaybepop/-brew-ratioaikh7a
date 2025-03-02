@@ -4,6 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ブリューレシオ計算機</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #bb86fc;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            background-color: #333;
+            color: white;
+            width: 80px;
+            text-align: center;
+        }
+        button {
+            background-color: #bb86fc;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #9a67ea;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
     <h2>ブリューレシオ計算機</h2>
@@ -15,8 +51,11 @@
     <script>
         function calculate() {
             let beans = parseFloat(document.getElementById("beans").value);
-            let water = (beans / 14 * 220).toFixed(1);
-            document.getElementById("result").innerHTML = "お湯の量: " + water + " ml";
+            let water = (beans / 14 * 220).toFixed(1); // お湯の量
+            let extraction = (water * 0.85).toFixed(1); // 抽出量 (約85%がコーヒーになる)
+
+            document.getElementById("result").innerHTML = 
+                "お湯の量: " + water + " ml<br>抽出量: " + extraction + " ml";
         }
     </script>
 </body>
