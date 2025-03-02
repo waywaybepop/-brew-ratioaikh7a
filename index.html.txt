@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブリューレシオ計算機</title>
+</head>
+<body>
+    <h2>ブリューレシオ計算機</h2>
+    <p>豆の量（g）を入力：</p>
+    <input type="number" id="beans" value="14">
+    <button onclick="calculate()">計算</button>
+    <p id="result"></p>
+
+    <script>
+        function calculate() {
+            let beans = parseFloat(document.getElementById("beans").value);
+            let water = (beans / 14 * 220).toFixed(1);
+            document.getElementById("result").innerHTML = "お湯の量: " + water + " ml";
+        }
+    </script>
+</body>
+</html>
