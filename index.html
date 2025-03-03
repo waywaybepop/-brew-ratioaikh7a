@@ -7,18 +7,44 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
 
-        /* 背景設定 */
+        /* 背景アニメーション */
         body {
-            background: url('https://raw.githubusercontent.com/waywaybepop/-brew-ratioaikh7a/refs/heads/main/IMG_0910.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            animation: waveAnimation 15s infinite alternate ease-in-out;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1e1e1e;
             color: #ccc;
             font-family: 'Quicksand', sans-serif;
             text-align: center;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* タイトルデザイン */
+        /* 背景の波アニメーション */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://raw.githubusercontent.com/waywaybepop/-brew-ratioaikh7a/refs/heads/main/IMG_0910.jpeg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.5;
+            z-index: -1;
+            animation: waveAnimation 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes waveAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* タイトル */
         h2 {
             font-size: 3em;
             color: #bbb;
@@ -28,49 +54,56 @@
             animation: fadeIn 1.5s ease-in-out;
         }
 
+        /* スマホ用の調整 */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+        }
+
         /* 入力エリア */
         .input-container {
             background: rgba(50, 50, 50, 0.8);
-            padding: 20px;
+            padding: 15px;
             display: inline-block;
             border-radius: 12px;
             margin-top: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: 300px;
+            width: 260px;
             animation: fadeIn 1.5s ease-in-out;
         }
 
-        input, #beanSlider {
-            width: 100%;
+        input {
+            width: 80px;
+            height: 30px;
+            font-size: 1.2em;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background: #333;
+            color: #fff;
             margin-top: 10px;
         }
 
         /* 結果表示 */
         #result {
-            font-size: 1.8em;
+            font-size: 1.5em;
             margin-top: 15px;
             opacity: 0;
             transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
             font-weight: 600;
         }
 
-        /* フェードインアニメーション */
+        /* アニメーション */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 背景が波打つアニメーション */
-        @keyframes waveAnimation {
-            0% { background-position: center top; transform: scale(1); }
-            50% { background-position: center bottom; transform: scale(1.03); }
-            100% { background-position: center top; transform: scale(1); }
-        }
-
         /* カードデザイン */
         .result-card {
             background: rgba(70, 70, 70, 0.8);
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             display: inline-block;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -84,9 +117,8 @@
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
-        <p>豆の量（g）を入力：</p>
+        <p>豆の量（g）：</p>
         <input type="number" id="beans" value="14" min="1">
-        <input type="range" id="beanSlider" min="1" max="50" value="14">
         <p id="result" class="result-card"></p>
     </div>
 
@@ -100,7 +132,7 @@
             }
             let water = (beans / 14 * 220).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
-            let cups = (extraction / 120).toFixed(1); // 1杯120mlと仮定
+            let cups = (extraction / 120).toFixed(1);
 
             let resultElement = document.getElementById("result");
             resultElement.innerHTML = `
@@ -111,15 +143,7 @@
             resultElement.style.transform = "translateY(0)";
         }
 
-        document.getElementById("beans").addEventListener("input", function() {
-            document.getElementById("beanSlider").value = this.value;
-            calculate();
-        });
-
-        document.getElementById("beanSlider").addEventListener("input", function() {
-            document.getElementById("beans").value = this.value;
-            calculate();
-        });
+        document.getElementById("beans").addEventListener("input", calculate);
 
         window.onload = calculate;
     </script>
