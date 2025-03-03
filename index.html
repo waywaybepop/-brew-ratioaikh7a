@@ -1,113 +1,53 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memechamame’s brew ratio calculating chart</title>
-    <style>
-        /* 🌊 背景アニメーション */
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: radial-gradient(circle, rgba(180, 180, 180, 0.3) 20%, rgba(0, 0, 0, 0.9) 90%);
-            background-size: 150% 150%;
-            animation: waveBackground 10s infinite alternate ease-in-out;
-        }
+import React, { useState, useEffect } from "react";
+import "tailwindcss/tailwind.css";
 
-        @keyframes waveBackground {
-            0% {
-                background-size: 140% 140%;
-                background-position: center;
-            }
-            100% {
-                background-size: 160% 160%;
-                background-position: 50% 50%;
-            }
-        }
+export default function BrewRatioCalculator() {
+  const [beans, setBeans] = useState(14);
+  const [water, setWater] = useState(220);
+  const [extraction, setExtraction] = useState(160);
 
-        /* 🌊 タイトル */
-        h1 {
-            font-size: 2em;
-            color: #bbb;
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-        }
+  useEffect(() => {
+    setWater(beans * 15.7);
+    setExtraction(beans * 11.4);
+  }, [beans]);
 
-        /* 🌊 入力フォーム */
-        .container {
-            background: rgba(50, 50, 50, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #ddd;
-            font-size: 1.2em;
-        }
+  return (
+    <div className="relative w-full h-screen flex flex-col justify-center items-center bg-gray-900 overflow-hidden">
+      {/* 背景の波アニメーション */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg className="w-full h-full animate-wave" viewBox="0 0 1440 320">
+          <path
+            fill="rgba(255, 255, 255, 0.1)"
+            d="M0,160L60,165.3C120,171,240,181,360,202.7C480,224,600,256,720,245.3C840,235,960,181,1080,149.3C1200,117,1320,107,1380,101.3L1440,96V320H0Z"
+          ></path>
+        </svg>
+      </div>
 
-        /* 🌊 数値入力 */
-        input {
-            width: 80px;
-            padding: 8px;
-            font-size: 1.2em;
-            text-align: center;
-            border-radius: 5px;
-            border: none;
-            background: #666;
-            color: #fff;
-            margin: 10px 0;
-        }
+      <h1 className="text-gray-400 text-3xl font-bold shadow-md">
+        memecha-mame's brew ratio calculating chart
+      </h1>
 
-        /* 🌊 結果表示 */
-        #result {
-            font-size: 1.5em;
-            margin-top: 10px;
-            color: #ccc;
-        }
-    </style>
-</head>
-<body>
+      <div className="mt-6 p-6 bg-gray-800 rounded-2xl shadow-xl text-white text-center relative z-10">
+        <label className="text-gray-300">豆の量 (g)</label>
+        <input
+          type="number"
+          value={beans}
+          onChange={(e) => setBeans(Number(e.target.value))}
+          className="block w-20 mx-auto mt-2 p-2 bg-gray-700 text-white rounded-lg text-center"
+        />
 
-    <h1>memechamame’s brew ratio calculating chart</h1>
-
-    <div class="container">
-        <label for="beans">豆の量 (g):</label>
-        <input type="number" id="beans" value="14" oninput="calculate()">
-        <p id="result"></p>
+        <p className="mt-4">お湯の量: {water.toFixed(1)} ml</p>
+        <p className="mt-2">抽出量: {extraction.toFixed(1)} ml</p>
+      </div>
     </div>
+  );
+}
 
-    <script>
-        function calculate() {
-            let beans = parseFloat(document.getElementById("beans").value);
-            let water = (beans / 14 * 220).toFixed(1);
-            let extraction = (beans / 14 * 160).toFixed(1);
-
-            document.getElementById("result").innerHTML = `お湯の量: ${water} ml <br> 抽出量: ${extraction} ml`;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            let background = document.body;
-            let x = 0, y = 0;
-            let speedX = 0.5, speedY = 0.5;
-            let angle = 0;
-
-            function animateBackground() {
-                angle += 0.02;
-                x = Math.sin(angle) * 10;
-                y = Math.cos(angle) * 10;
-                background.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
-                requestAnimationFrame(animateBackground);
-            }
-
-            animateBackground();
-            calculate();
-        });
-    </script>
-
-</body>
-</html>
+/* TailwindCSS アニメーション追加 */
+const styles = {
+  "@keyframes wave": {
+    "0%": { transform: "translateX(0)" },
+    "50%": { transform: "translateX(-50px)" },
+    "100%": { transform: "translateX(0)" },
+  },
+};
