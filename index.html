@@ -1,21 +1,188 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const background = document.body;
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>memechamame’s brew ratio calculating chart</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
 
-    let x = 0, y = 0;
-    let speedX = (Math.random() - 0.5) * 1.5;
-    let speedY = (Math.random() - 0.5) * 1.5;
+        /* ベーススタイル */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #1e1e1e;
+            color: #ccc;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    function animateBackground() {
-        x += speedX;
-        y += speedY;
+        /* 背景アニメーション */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://raw.githubusercontent.com/waywaybepop/-brew-ratioaikh7a/refs/heads/main/IMG_0910.jpeg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: -1;
+            animation: waveAnimation 6s infinite alternate ease-in-out;
+        }
 
-        if (Math.abs(x) > 10) speedX *= -1;
-        if (Math.abs(y) > 10) speedY *= -1;
+        @keyframes waveAnimation {
+            0% { transform: scale(1) translateY(0px); }
+            50% { transform: scale(1.02) translateY(8px); }
+            100% { transform: scale(1) translateY(0px); }
+        }
 
-        background.style.backgroundPosition = `${x}px ${y}px`;
+        /* タイトル */
+        h2 {
+            font-size: 2.5em;
+            color: #bbb;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1.5px;
+            animation: fadeIn 1.5s ease-in-out;
+            margin-bottom: 20px;
+        }
 
-        requestAnimationFrame(animateBackground);
-    }
+        /* スマホ用調整 */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+        }
 
-    animateBackground();
-});
+        /* 入力エリア */
+        .input-container {
+            background: rgba(70, 70, 70, 0.7);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 260px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* フォームのデザイン */
+        label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #ddd;
+        }
+
+        input {
+            width: 80px;
+            height: 30px;
+            font-size: 1.2em;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background: rgba(200, 200, 200, 0.2);
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        /* スライダー */
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            background: #888;
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        /* 結果表示 */
+        #result {
+            font-size: 1.5em;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+            font-weight: 600;
+        }
+
+        /* 結果カード */
+        .result-card {
+            background: rgba(70, 70, 70, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>memechamame’s brew ratio calculating chart</h2>
+
+    <div class="input-container">
+        <label for="beans">豆の量 g</label>
+        <br>
+        <input type="number" id="beans" value="14" min="1">
+        <br>
+        <input type="range" id="beanRange" min="1" max="30" value="14">
+        <p id="result" class="result-card"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            let beans = parseFloat(document.getElementById("beans").value);
+            if (isNaN(beans) || beans <= 0) {
+                document.getElementById("result").innerHTML = "正しい数値を入力してください";
+                document.getElementById("result").style.opacity = "1";
+                return;
+            }
+            let water = (beans / 14 * 220).toFixed(1);
+            let extraction = (beans / 14 * 160).toFixed(1);
+            let cups = (extraction / 120).toFixed(1);
+
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                お湯の量: ${water} ml <br> 
+                抽出量: ${extraction} ml (約 ${cups} 杯)
+            `;
+            resultElement.style.opacity = "1";
+            resultElement.style.transform = "translateY(0)";
+        }
+
+        // シークバーと数値入力の同期
+        document.getElementById("beans").addEventListener("input", function() {
+            document.getElementById("beanRange").value = this.value;
+            calculate();
+        });
+
+        document.getElementById("beanRange").addEventListener("input", function() {
+            document.getElementById("beans").value = this.value;
+            calculate();
+        });
+
+        window.onload = calculate;
+    </script>
+
+</body>
+</html>
