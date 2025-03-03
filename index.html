@@ -1,49 +1,21 @@
-import React, { useState, useEffect } from "react";
-import "tailwindcss/tailwind.css";
+document.addEventListener("DOMContentLoaded", () => {
+    const background = document.body;
 
-export default function BrewRatioCalculator() {
-  const [beans, setBeans] = useState(14);
-  const [water, setWater] = useState(220);
-  const [extraction, setExtraction] = useState(160);
+    let x = 0, y = 0;
+    let speedX = (Math.random() - 0.5) * 1.5;
+    let speedY = (Math.random() - 0.5) * 1.5;
 
-  useEffect(() => {
-    setWater(beans * 15.7);
-    setExtraction(beans * 11.4);
-  }, [beans]);
+    function animateBackground() {
+        x += speedX;
+        y += speedY;
 
-  return (
-    <div className="relative w-full h-screen flex flex-col justify-center items-center bg-gray-900 overflow-hidden">
-      {/* ① 背景に猫の画像を追加 */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50" 
-           style={{ backgroundImage: "url('/cat-image.png')" }}>
-      </div>
+        if (Math.abs(x) > 10) speedX *= -1;
+        if (Math.abs(y) > 10) speedY *= -1;
 
-      {/* ② 波アニメーションの調整 */}
-      <div className="absolute inset-0 overflow-hidden">
-        <svg className="w-full h-full animate-wave" viewBox="0 0 1440 320">
-          <path
-            fill="rgba(255, 255, 255, 0.05)"  // 透明度を調整
-            d="M0,160L60,165.3C120,171,240,181,360,202.7C480,224,600,256,720,245.3C840,235,960,181,1080,149.3C1200,117,1320,107,1380,101.3L1440,96V320H0Z"
-          ></path>
-        </svg>
-      </div>
+        background.style.backgroundPosition = `${x}px ${y}px`;
 
-      <h1 className="text-gray-400 text-3xl font-bold shadow-md">
-        memecha-mame's brew ratio calculating chart
-      </h1>
+        requestAnimationFrame(animateBackground);
+    }
 
-      <div className="mt-6 p-6 bg-gray-800 rounded-2xl shadow-xl text-white text-center relative z-10">
-        <label className="text-gray-300">豆の量 (g)</label>
-        <input
-          type="number"
-          value={beans}
-          onChange={(e) => setBeans(Number(e.target.value))}
-          className="block w-20 mx-auto mt-2 p-2 bg-gray-700 text-white rounded-lg text-center"
-        />
-
-        <p className="mt-4">お湯の量: {water.toFixed(1)} ml</p>
-        <p className="mt-2">抽出量: {extraction.toFixed(1)} ml</p>
-      </div>
-    </div>
-  );
-}
+    animateBackground();
+});
