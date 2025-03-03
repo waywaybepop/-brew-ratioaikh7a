@@ -1,130 +1,128 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>memechamame’s brew ratio calculating chart</title>
-  <!-- 最新のデザインガイドラインに基づくおすすめフォント -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* 背景：GitHubから取得した猫の画像を透過ブレンド（検索結果で「背景透過 ダークモード」等のベストプラクティスを参照） */
-    body {
-      background: 
-        linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
-        url('https://raw.githubusercontent.com/waywaybepop/-brew-ratioaikh7a/refs/heads/main/IMG_0910.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      color: #ddd;
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-    }
-   h2 {
-  font-size: 2.5em;
-  font-weight: 600;
-  color: #bbb; /* グレーに変更 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 読みやすくするための影 */
-  margin-top: 20px;
-  animation: fadeIn 1.5s ease-in-out;
-}
-    .container {
-      max-width: 450px;
-      margin: 40px auto;
-      padding: 25px;
-      background: rgba(50, 50, 50, 0.85);
-      border-radius: 15px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 1s ease-in-out;
-    }
-    p, label {
-      font-size: 1.3em;
-      margin: 10px 0;
-    }
-    input {
-      font-size: 1.3em;
-      padding: 12px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      text-align: center;
-      width: 100px;
-      background: #555;
-      color: #fff;
-      transition: background 0.3s, transform 0.3s;
-    }
-    input:focus {
-      background: #777;
-      transform: scale(1.05);
-    }
-    .button-group {
-      margin-top: 10px;
-    }
-    button {
-      font-size: 1.3em;
-      padding: 12px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-      background: #666; /* 背景色をグレーに固定（検索・推論ボタンも含む） */
-      color: #fff;
-    }
-    button:hover {
-      background: #888;
-      transform: scale(1.1);
-    }
-    #result {
-      font-size: 1.6em;
-      font-weight: bold;
-      padding: 20px;
-      background: rgba(100, 100, 100, 0.7);
-      border-radius: 10px;
-      margin-top: 20px;
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>memechamame’s brew ratio calculating chart</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
+
+        /* 背景設定 */
+        body {
+            background: url('https://raw.githubusercontent.com/waywaybepop/-brew-ratioaikh7a/refs/heads/main/IMG_0910.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            animation: waveAnimation 15s infinite alternate ease-in-out;
+            color: #ccc;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* タイトルデザイン */
+        h2 {
+            font-size: 3em;
+            color: #bbb;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1.5px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* 入力エリア */
+        .input-container {
+            background: rgba(50, 50, 50, 0.8);
+            padding: 20px;
+            display: inline-block;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        input, #beanSlider {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* 結果表示 */
+        #result {
+            font-size: 1.8em;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+            font-weight: 600;
+        }
+
+        /* フェードインアニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 背景が波打つアニメーション */
+        @keyframes waveAnimation {
+            0% { background-position: center top; transform: scale(1); }
+            50% { background-position: center bottom; transform: scale(1.03); }
+            100% { background-position: center top; transform: scale(1); }
+        }
+
+        /* カードデザイン */
+        .result-card {
+            background: rgba(70, 70, 70, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+    </style>
 </head>
 <body>
-  <h2>memechamame’s brew ratio calculating chart</h2>
-  <div class="container">
-    <p>☕ 豆の量（g）を入力：</p>
-    <!-- リアルタイム計算（oninput）を導入してユーザー体験を向上 -->
-    <input type="number" id="beans" value="14" min="10" max="50" oninput="calculate()">
-    <div class="button-group">
-      <!-- ここでは「検索」と「推論」のボタンはコード作成の過程で情報収集に役立った結果として、UIに組み込む必要はなく、内部コメントに記録 -->
-      <button onclick="calculate()">計算</button>
-    </div>
-    <div id="result"></div>
-  </div>
 
-  <script>
-    // 以下の計算ロジックは、過去の検索結果や推論機能に基づく最新のデザイン・UX改善を反映しています。
-    function calculate() {
-      let beans = parseFloat(document.getElementById("beans").value);
-      // 豆の量に基づく各量の計算（14g基準）
-      let bloomWater = (beans / 14 * 20).toFixed(1);   // 蒸らし用のお湯量
-      let totalWater = (beans / 14 * 220).toFixed(1);   // 総湯量（蒸らし＋本抽出）
-      let extraction = (beans / 14 * 160).toFixed(1);     // 抽出量
-      
-      // 結果表示：改善点として、計算結果に分かりやすいアイコンとテキストを追加
-      document.getElementById("result").innerHTML = `
-        <p>🌊 蒸らし用お湯: ${bloomWater} ml</p>
-        <p>💧 総湯量: ${totalWater} ml</p>
-        <p>☕ 抽出量: ${extraction} ml</p>
-      `;
-    }
-    
-    // 初回計算を実行しておく
-    calculate();
-  </script>
+    <h2>memechamame’s brew ratio calculating chart</h2>
+
+    <div class="input-container">
+        <p>豆の量（g）を入力：</p>
+        <input type="number" id="beans" value="14" min="1">
+        <input type="range" id="beanSlider" min="1" max="50" value="14">
+        <p id="result" class="result-card"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            let beans = parseFloat(document.getElementById("beans").value);
+            if (isNaN(beans) || beans <= 0) {
+                document.getElementById("result").innerHTML = "正しい数値を入力してください";
+                document.getElementById("result").style.opacity = "1";
+                return;
+            }
+            let water = (beans / 14 * 220).toFixed(1);
+            let extraction = (beans / 14 * 160).toFixed(1);
+            let cups = (extraction / 120).toFixed(1); // 1杯120mlと仮定
+
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                お湯の量: ${water} ml <br> 
+                抽出量: ${extraction} ml (約 ${cups} 杯)
+            `;
+            resultElement.style.opacity = "1";
+            resultElement.style.transform = "translateY(0)";
+        }
+
+        document.getElementById("beans").addEventListener("input", function() {
+            document.getElementById("beanSlider").value = this.value;
+            calculate();
+        });
+
+        document.getElementById("beanSlider").addEventListener("input", function() {
+            document.getElementById("beans").value = this.value;
+            calculate();
+        });
+
+        window.onload = calculate;
+    </script>
+
 </body>
 </html>
