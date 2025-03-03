@@ -7,13 +7,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
 
-        /* 背景アニメーション */
+        /* ベーススタイル */
         body {
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             background: #1e1e1e;
             color: #ccc;
@@ -23,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* 背景の波アニメーション */
+        /* 背景アニメーション */
         body::before {
             content: "";
             position: absolute;
@@ -46,15 +47,16 @@
 
         /* タイトル */
         h2 {
-            font-size: 3em;
+            font-size: 2.5em;
             color: #bbb;
             text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
             font-family: 'Fredoka One', cursive;
             letter-spacing: 1.5px;
             animation: fadeIn 1.5s ease-in-out;
+            margin-bottom: 20px;
         }
 
-        /* スマホ用の調整 */
+        /* スマホ用調整 */
         @media (max-width: 768px) {
             h2 {
                 font-size: 2em;
@@ -65,12 +67,17 @@
         .input-container {
             background: rgba(50, 50, 50, 0.8);
             padding: 15px;
-            display: inline-block;
             border-radius: 12px;
-            margin-top: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             width: 260px;
             animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* フォームのデザイン */
+        label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #ddd;
         }
 
         input {
@@ -85,6 +92,23 @@
             margin-top: 10px;
         }
 
+        /* スライダー */
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            background: #888;
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
         /* 結果表示 */
         #result {
             font-size: 1.5em;
@@ -94,13 +118,7 @@
             font-weight: 600;
         }
 
-        /* アニメーション */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* カードデザイン */
+        /* 結果カード */
         .result-card {
             background: rgba(70, 70, 70, 0.8);
             padding: 10px;
@@ -110,6 +128,12 @@
             animation: fadeIn 1s ease-in-out;
         }
 
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
@@ -117,8 +141,11 @@
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
-        <p>豆の量（g）：</p>
+        <label for="beans">豆の量（g）：</label>
+        <br>
         <input type="number" id="beans" value="14" min="1">
+        <br>
+        <input type="range" id="beanRange" min="1" max="30" value="14">
         <p id="result" class="result-card"></p>
     </div>
 
@@ -143,7 +170,16 @@
             resultElement.style.transform = "translateY(0)";
         }
 
-        document.getElementById("beans").addEventListener("input", calculate);
+        // シークバーと数値入力の同期
+        document.getElementById("beans").addEventListener("input", function() {
+            document.getElementById("beanRange").value = this.value;
+            calculate();
+        });
+
+        document.getElementById("beanRange").addEventListener("input", function() {
+            document.getElementById("beans").value = this.value;
+            calculate();
+        });
 
         window.onload = calculate;
     </script>
