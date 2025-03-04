@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* 背景 */
+        /* 背景画像 */
         body::before {
             content: "";
             position: absolute;
@@ -69,7 +69,7 @@
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: 300px; /* 10%広げた */
+            width: 260px;
             animation: fadeIn 1.5s ease-in-out;
         }
 
@@ -80,8 +80,8 @@
             color: #ddd;
         }
 
-        input {
-            width: 80px;
+        input[type="number"] {
+            width: 180px; /* 結果枠と統一 */
             height: 30px;
             font-size: 1.2em;
             text-align: center;
@@ -109,50 +109,22 @@
             opacity: 1;
         }
 
-        /* 結果表示 */
-        #result {
-            font-size: 1.5em;
-            margin-top: 15px;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            gap: 8px; /* 行間を調整 */
-            align-items: center;
-        }
-
-        /* 結果カード */
+        /* 結果表示枠 */
         .result-card {
             background: rgba(70, 70, 70, 0.8);
-            padding: 10px;
+            padding: 8px; /* 縦のスペースを50%縮小 */
             border-radius: 10px;
             display: inline-block;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             animation: fadeIn 1s ease-in-out;
-            width: 100%;
+            width: 180px; /* 豆の量の枠に合わせる */
+            margin: 0 auto; /* 中央揃え */
         }
 
-        /* 各項目 */
+        /* 結果の各項目 */
         .result-item {
-            white-space: nowrap; /* 画面サイズに応じて最適化 */
-        }
-
-        /* スマホ・タブレット・PC用メディアクエリ */
-        @media (max-width: 480px) {
-            .result-card {
-                font-size: 1.2em;
-            }
-        }
-
-        @media (min-width: 481px) and (max-width: 768px) {
-            .result-card {
-                font-size: 1.4em;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .result-card {
-                font-size: 1.6em;
-            }
+            white-space: nowrap; /* 項目が折り返されないようにする */
+            font-size: 1.1em;
         }
 
         /* アニメーション */
@@ -180,20 +152,22 @@
         function calculate() {
             let beans = parseFloat(document.getElementById("beans").value);
             if (isNaN(beans) || beans <= 0) {
-                document.getElementById("result").innerHTML = "<p class='result-item'>正しい数値を入力してください</p>";
+                document.getElementById("result").innerHTML = "正しい数値を入力してください";
                 return;
             }
-            let blooming = (beans / 14 * 20).toFixed(1);
+            let bloom = (beans / 14 * 20).toFixed(1);
             let water = (beans / 14 * 220).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
 
-            document.getElementById("result").innerHTML = `
-                <p class="result-item">蒸らし湯量（1分）: ${blooming} ml</p>
-                <p class="result-item">総湯量（2分15秒）: ${water} ml</p>
-                <p class="result-item">抽出量: ${extraction} ml</p>
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                <div class="result-item">蒸らし湯量（1分）: ${bloom} ml</div>
+                <div class="result-item">総湯量（2分15秒）: ${water} ml</div>
+                <div class="result-item">抽出量: ${extraction} ml</div>
             `;
         }
 
+        // シークバーと数値入力の同期
         document.getElementById("beans").addEventListener("input", function() {
             document.getElementById("beanRange").value = this.value;
             calculate();
