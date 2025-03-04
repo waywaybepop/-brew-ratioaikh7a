@@ -23,28 +23,28 @@
             overflow: hidden;
         }
 
-        /* 背景画像をCSSで設定 */
+        /* 透過画像のアニメーション付き背景 */
         .bg-container {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-         background-image: url('https://github.com/waywaybepop/-brew-ratioaikh7a/blob/7c4fe4f0a8fb99d5900b968504e2f58c60bdd607/IMG_0910.jpeg?raw=true');
-
-            background-size: contain;
+            width: 120%;
+            height: 120%;
+            background-image: url('https://github.com/waywaybepop/-brew-ratioaikh7a/blob/7c4fe4f0a8fb99d5900b968504e2f58c60bdd607/IMG_0910.jpeg?raw=true');
+            background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             opacity: 0.6;
             z-index: -1;
-            animation: waveEffect 6s ease-in-out infinite;
+            animation: waveEffect 6s linear infinite;
         }
 
-        /* 透過画像のアニメーション */
+        /* 透過画像が波打つようなアニメーション */
         @keyframes waveEffect {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -52%) scale(1.05); }
+            25% { transform: translate(-50%, -49%) scale(1.02); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            75% { transform: translate(-50%, -51%) scale(1.02); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
