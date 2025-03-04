@@ -69,7 +69,7 @@
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: 286px; /* 10%広げた */
+            width: 280px; /* 横幅を10%広げる */
             animation: fadeIn 1.5s ease-in-out;
         }
 
@@ -113,9 +113,8 @@
         #result {
             font-size: 1.5em;
             margin-top: 15px;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
             font-weight: 600;
+            white-space: nowrap; /* 改行を防ぐ */
         }
 
         /* 結果カード */
@@ -126,6 +125,26 @@
             display: inline-block;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             animation: fadeIn 1s ease-in-out;
+            width: 100%; /* 横幅を10%広げる */
+        }
+
+        /* スマホ・タブレット・PC用メディアクエリ */
+        @media (max-width: 480px) {
+            .result-card {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .result-card {
+                font-size: 1.4em;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .result-card {
+                font-size: 1.6em;
+            }
         }
 
         /* アニメーション */
@@ -154,25 +173,19 @@
             let beans = parseFloat(document.getElementById("beans").value);
             if (isNaN(beans) || beans <= 0) {
                 document.getElementById("result").innerHTML = "正しい数値を入力してください";
-                document.getElementById("result").style.opacity = "1";
                 return;
             }
-
-            let bloomWater = (beans / 14 * 20).toFixed(1);
-            let totalWater = (beans / 14 * 220).toFixed(1);
+            let blooming = (beans / 14 * 20).toFixed(1);
+            let water = (beans / 14 * 220).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
 
-            let resultElement = document.getElementById("result");
-            resultElement.innerHTML = `
-                蒸らし（1分）: ${bloomWater} ml <br>
-                総湯量（2分15秒）: ${totalWater} ml <br>
+            document.getElementById("result").innerHTML = `
+                蒸らし湯量（1分）: ${blooming} ml　|　
+                総湯量（2分15秒）: ${water} ml　|　
                 抽出量: ${extraction} ml
             `;
-            resultElement.style.opacity = "1";
-            resultElement.style.transform = "translateY(0)";
         }
 
-        // シークバーと数値入力の同期
         document.getElementById("beans").addEventListener("input", function() {
             document.getElementById("beanRange").value = this.value;
             calculate();
