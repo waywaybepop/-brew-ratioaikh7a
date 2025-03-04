@@ -7,7 +7,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
 
-        /* ベーススタイル */
         body {
             margin: 0;
             padding: 0;
@@ -24,7 +23,6 @@
             overflow: hidden;
         }
 
-        /* 背景画像 */
         body::before {
             content: "";
             position: absolute;
@@ -36,44 +34,33 @@
             background-size: cover;
             opacity: 0.4;
             z-index: -1;
-            animation: waveAnimation 6s infinite alternate ease-in-out;
         }
 
-        @keyframes waveAnimation {
-            0% { transform: scale(1) translateY(0px); }
-            50% { transform: scale(1.02) translateY(8px); }
-            100% { transform: scale(1) translateY(0px); }
-        }
-
-        /* タイトル */
         h2 {
             font-size: 2.5em;
             color: #bbb;
             text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
             font-family: 'Fredoka One', cursive;
             letter-spacing: 1.5px;
-            animation: fadeIn 1.5s ease-in-out;
             margin-bottom: 20px;
         }
 
-        /* スマホ用調整 */
         @media (max-width: 768px) {
             h2 {
                 font-size: 2em;
             }
         }
 
-        /* 入力エリア */
         .input-container {
             background: rgba(70, 70, 70, 0.7);
             padding: 15px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             width: 260px;
-            animation: fadeIn 1.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* フォームのデザイン */
         label {
             font-size: 1.2em;
             font-weight: 600;
@@ -81,7 +68,7 @@
         }
 
         input[type="number"] {
-            width: 180px; /* 結果枠と統一 */
+            width: 180px;
             height: 30px;
             font-size: 1.2em;
             text-align: center;
@@ -92,10 +79,8 @@
             margin-top: 10px;
         }
 
-        /* スライダー */
         input[type="range"] {
             width: 100%;
-            -webkit-appearance: none;
             appearance: none;
             height: 5px;
             background: #888;
@@ -111,26 +96,29 @@
 
         /* 結果表示枠 */
         .result-card {
-            background: rgba(70, 70, 70, 0.8);
-            padding: 8px; /* 縦のスペースを50%縮小 */
+            background: rgba(70, 70, 70, 0.85);
+            padding: 10px;
             border-radius: 10px;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-in-out;
-            width: 180px; /* 豆の量の枠に合わせる */
-            margin: 0 auto; /* 中央揃え */
+            width: auto;  /* 内容にフィットするように変更 */
+            max-width: 220px; /* はみ出し防止 */
+            text-align: left;
+            margin-top: 10px;
         }
 
-        /* 結果の各項目 */
+        /* 各項目 */
         .result-item {
-            white-space: nowrap; /* 項目が折り返されないようにする */
+            white-space: nowrap;
             font-size: 1.1em;
         }
 
-        /* アニメーション */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* 数値を太字にする */
+        .bold-value {
+            font-weight: bold;
+            color: #fff;
         }
 
     </style>
@@ -161,13 +149,12 @@
 
             let resultElement = document.getElementById("result");
             resultElement.innerHTML = `
-                <div class="result-item">蒸らし湯量（1分）: ${bloom} ml</div>
-                <div class="result-item">総湯量（2分15秒）: ${water} ml</div>
-                <div class="result-item">抽出量: ${extraction} ml</div>
+                <div class="result-item">蒸らし湯量（1分）: <span class="bold-value">${bloom} ml</span></div>
+                <div class="result-item">総湯量（2分15秒）: <span class="bold-value">${water} ml</span></div>
+                <div class="result-item">抽出量: <span class="bold-value">${extraction} ml</span></div>
             `;
         }
 
-        // シークバーと数値入力の同期
         document.getElementById("beans").addEventListener("input", function() {
             document.getElementById("beanRange").value = this.value;
             calculate();
