@@ -69,7 +69,7 @@
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: 260px;
+            width: 286px; /* 10%広げた */
             animation: fadeIn 1.5s ease-in-out;
         }
 
@@ -159,14 +159,14 @@
             }
 
             let bloomWater = (beans / 14 * 20).toFixed(1);
-            let extraction = (beans / 14 * 160).toFixed(1);
             let totalWater = (beans / 14 * 220).toFixed(1);
+            let extraction = (beans / 14 * 160).toFixed(1);
 
             let resultElement = document.getElementById("result");
             resultElement.innerHTML = `
-                蒸らし湯（1分）: ${bloomWater} ml <br>
-                抽出量: ${extraction} ml <br> 
-                総湯量: ${totalWater} ml
+                蒸らし（1分）: ${bloomWater} ml <br>
+                総湯量（2分15秒）: ${totalWater} ml <br>
+                抽出量: ${extraction} ml
             `;
             resultElement.style.opacity = "1";
             resultElement.style.transform = "translateY(0)";
