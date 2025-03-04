@@ -1,32 +1,49 @@
-/* 「豆」の文字を中央に */
-.label-bold {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #fff;
-    display: block;
-    text-align: center;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>memechamame’s brew ratio calculating chart</title>
+    <style>
+        /* 「豆」の文字を中央に */
+        .label-bold {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
 
-/* 数値入力欄のサイズ調整 */
-input[type="number"] {
-    width: 80px; /* 適度な幅に変更 */
-    padding: 8px;
-    font-size: 1.2em;
-    text-align: center;
-    background-color: #888; /* 淡めのグレー */
-    color: #fff;
-    border: 1px solid #666;
-    border-radius: 5px;
-    outline: none;
-}
+        /* 数値入力欄のサイズ調整 */
+        input[type="number"] {
+            width: 80px; /* 適度な幅に変更 */
+            padding: 8px;
+            font-size: 1.2em;
+            text-align: center;
+            background-color: #888; /* 淡めのグレー */
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 5px;
+            outline: none;
+        }
 
-/* 計算結果表示エリアの背景色を淡めに */
-.result-card {
-    background: rgba(100, 100, 100, 0.6); /* 透明度を増やし、より淡めのグレーに */
-    padding: 10px;
-    border-radius: 10px;
-    width: auto;
-    max-width: 220px;
-    text-align: left;
-    margin-top: 10px;
-}
+        /* 計算結果表示エリアの背景色を淡めに */
+        .result-card {
+            background: rgba(100, 100, 100, 0.6); /* 透明度を増やし、より淡めのグレーに */
+            padding: 10px;
+            border-radius: 10px;
+            width: auto;
+            max-width: 220px;
+            text-align: left;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>memechamame’s brew ratio calculating chart</h2>
+    <div class="input-container">
+        <label class="label-bold">豆<span style="font-size: 0.7em; font-weight: normal;">㌘</span></label>
+        <input type="number" id="beans" value="14" min="1">
+    </div>
+</body>
+</html>
