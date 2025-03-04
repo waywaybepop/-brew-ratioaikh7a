@@ -1,189 +1,32 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memechamame’s brew ratio calculating chart</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
+/* 「豆」の文字を中央に */
+.label-bold {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+    text-align: center;
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #1e1e1e;
-            color: #ccc;
-            font-family: 'Quicksand', sans-serif;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+/* 数値入力欄のサイズ調整 */
+input[type="number"] {
+    width: 80px; /* 適度な幅に変更 */
+    padding: 8px;
+    font-size: 1.2em;
+    text-align: center;
+    background-color: #888; /* 淡めのグレー */
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 5px;
+    outline: none;
+}
 
-        /* 背景アニメーション */
-        .bg-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120%;
-            height: 120%;
-            background-image: url('https://github.com/waywaybepop/-brew-ratioaikh7a/blob/7c4fe4f0a8fb99d5900b968504e2f58c60bdd607/IMG_0910.jpeg?raw=true');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.6;
-            z-index: -1;
-            animation: waveEffect 6s linear infinite;
-        }
-
-        @keyframes waveEffect {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-
-        /* 通常のタイトル */
-        h2 {
-            font-size: 2.5em;
-            color: #bbb;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
-            font-family: 'Fredoka One', cursive;
-            letter-spacing: 1.5px;
-            margin-bottom: 20px;
-        }
-
-        /* スマホ画面のみタイトルを20%小さく */
-        @media (max-width: 600px) {
-            h2 {
-                font-size: 2em; /* 通常の80% */
-            }
-        }
-
-        .input-container {
-            background: rgba(70, 70, 70, 0.7);
-            padding: 15px;
-            border-radius: 12px;
-            width: 260px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* 「豆」は大きく＆太字、「㌘」は小さく＆細字 */
-        .label-bold {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .label-small {
-            font-size: 0.8em;
-            font-weight: normal;
-            color: #ccc;
-        }
-
-        /* 数値入力欄のスタイル */
-        input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            font-size: 1.2em;
-            text-align: center;
-            background-color: #444; /* 見やすいグレー */
-            color: #fff;
-            border: 1px solid #666;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        /* シークバー（スライダー）のスタイル */
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            background: #777; /* グレー系に変更 */
-            border-radius: 5px;
-            outline: none;
-            margin-top: 5px;
-        }
-
-        /* シークバーの丸い部分（thumb）のスタイル */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #aaa; /* グレーに変更 */
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .result-card {
-            background: rgba(70, 70, 70, 0.85);
-            padding: 10px;
-            border-radius: 10px;
-            width: auto;
-            max-width: 220px;
-            text-align: left;
-            margin-top: 10px;
-        }
-
-        .bold-value {
-            font-weight: bold;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 背景画像コンテナ -->
-    <div class="bg-container"></div>
-
-    <h2>memechamame’s brew ratio calculating chart</h2>
-
-    <div class="input-container">
-        <label class="label-bold" for="beans">
-            豆<span class="label-small">㌘</span> <!-- ㌘のみ小さく細字 -->
-        </label>
-        <br>
-        <input type="number" id="beans" value="14" min="1">
-        <br>
-        <input type="range" id="beanRange" min="1" max="30" value="14">
-        <div id="result" class="result-card"></div>
-    </div>
-
-    <script>
-        function calculate() {
-            let beans = parseFloat(document.getElementById("beans").value);
-            if (isNaN(beans) || beans <= 0) {
-                document.getElementById("result").innerHTML = "正しい数値を入力してください";
-                return;
-            }
-            let bloom = (beans / 14 * 20).toFixed(1);
-            let water = (beans / 14 * 220).toFixed(1);
-            let extraction = (beans / 14 * 160).toFixed(1);
-
-            let resultElement = document.getElementById("result");
-            resultElement.innerHTML = `
-                <div class="result-item">蒸らし湯量（1分）: <span class="bold-value">${bloom} ml</span></div>
-                <div class="result-item">総湯量（2分15秒）: <span class="bold-value">${water} ml</span></div>
-                <div class="result-item">抽出量: <span class="bold-value">${extraction} ml</span></div>
-            `;
-        }
-
-        document.getElementById("beans").addEventListener("input", function() {
-            document.getElementById("beanRange").value = this.value;
-            calculate();
-        });
-
-        document.getElementById("beanRange").addEventListener("input", function() {
-            document.getElementById("beans").value = this.value;
-            calculate();
-        });
-
-        window.onload = calculate;
-    </script>
-
-</body>
-</html>
+/* 計算結果表示エリアの背景色を淡めに */
+.result-card {
+    background: rgba(100, 100, 100, 0.6); /* 透明度を増やし、より淡めのグレーに */
+    padding: 10px;
+    border-radius: 10px;
+    width: auto;
+    max-width: 220px;
+    text-align: left;
+    margin-top: 10px;
+}
