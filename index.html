@@ -3,47 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memechamame’s brew ratio calculating chart</title>
+    <title>Brew Ratio Calculator</title>
     <style>
-        /* 「豆」の文字を中央に */
+        /* 共通スタイル */
+        body {
+            font-family: "Arial", sans-serif;
+            background-image: url('your-background-image.jpg'); /* 背景画像のパス */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* タイトル（スマホで20%小さく） */
+        h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em; /* 20%小さく */
+            }
+        }
+
+        /* 「豆」のスタイル */
         .label-bold {
-            font-size: 1.4em;
+            font-size: 1.6em;
             font-weight: bold;
             color: #fff;
             display: block;
             text-align: center;
         }
 
-        /* 数値入力欄のサイズ調整 */
+        /* 「㌘」のスタイル */
+        .label-bold span {
+            font-size: 0.8em; /* 小さく */
+            font-weight: normal; /* 細字 */
+        }
+
+        /* 数値入力フィールド */
         input[type="number"] {
-            width: 80px; /* 適度な幅に変更 */
-            padding: 8px;
-            font-size: 1.2em;
+            width: 80px; /* 適度な横幅 */
+            padding: 6px;
+            font-size: 1.4em;
             text-align: center;
-            background-color: #888; /* 淡めのグレー */
+            background-color: #aaa; /* 淡いグレー */
             color: #fff;
             border: 1px solid #666;
             border-radius: 5px;
             outline: none;
         }
 
-        /* 計算結果表示エリアの背景色を淡めに */
+        /* シークバー */
+        input[type="range"] {
+            width: 80%;
+            accent-color: #999; /* シークバーのグレー */
+        }
+
+        /* 計算結果エリア */
         .result-card {
-            background: rgba(100, 100, 100, 0.6); /* 透明度を増やし、より淡めのグレーに */
-            padding: 10px;
+            background: rgba(100, 100, 100, 0.4); /* より淡いグレー */
+            padding: 12px;
             border-radius: 10px;
             width: auto;
-            max-width: 220px;
-            text-align: left;
-            margin-top: 10px;
+            max-width: 250px;
+            margin: 10px auto;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h2>memechamame’s brew ratio calculating chart</h2>
-    <div class="input-container">
-        <label class="label-bold">豆<span style="font-size: 0.7em; font-weight: normal;">㌘</span></label>
-        <input type="number" id="beans" value="14" min="1">
+
+    <h1>memechamame’s brew ratio calculating chart</h1>
+
+    <!-- 豆の量 -->
+    <div>
+        <label class="label-bold">豆 <span>㌘</span></label>
+        <input type="number" id="beanAmount" value="14" min="1" max="100">
+        <input type="range" id="beanSlider" min="1" max="50" value="14">
     </div>
+
+    <!-- 計算結果表示 -->
+    <div class="result-card">
+        <p>蒸らし湯量（1分）：<strong id="bloomWater">20.0</strong> ml</p>
+        <p>総湯量（2分15秒）：<strong id="totalWater">220.0</strong> ml</p>
+        <p>抽出量：<strong id="extractionWater">160.0</strong> ml</p>
+    </div>
+
+    <script>
+        // スライダーと数値入力の連動
+        const beanInput = document.getElementById("beanAmount");
+        const beanSlider = document.getElementById("beanSlider");
+        const bloomWater = document.getElementById("bloomWater");
+        const totalWater = document.getElementById("totalWater");
+        const extractionWater = document.getElementById("extractionWater");
+
+        function calculateBrew() {
+            const beanGrams = parseFloat(beanInput.value);
+            bloomWater.textContent = (beanGrams * 1.43).toFixed(1) + " ml";
+            totalWater.textContent = (beanGrams * 15.7).toFixed(1) + " ml";
+            extractionWater.textContent = (beanGrams * 11.4).toFixed(1) + " ml";
+        }
+
+        // スライダーと入力欄の同期
+        beanInput.addEventListener("input", function () {
+            beanSlider.value = beanInput.value;
+            calculateBrew();
+        });
+
+        beanSlider.addEventListener("input", function () {
+            beanInput.value = beanSlider.value;
+            calculateBrew();
+        });
+
+        // 初期計算
+        calculateBrew();
+    </script>
+
 </body>
 </html>
