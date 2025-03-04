@@ -7,6 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
 
+        /* ベーススタイル */
         body {
             margin: 0;
             padding: 0;
@@ -23,6 +24,7 @@
             overflow: hidden;
         }
 
+        /* 背景アニメーション */
         body::before {
             content: "";
             position: absolute;
@@ -43,6 +45,7 @@
             100% { transform: scale(1) translateY(0px); }
         }
 
+        /* タイトル */
         h2 {
             font-size: 2.5em;
             color: #bbb;
@@ -53,12 +56,14 @@
             margin-bottom: 20px;
         }
 
+        /* スマホ用調整 */
         @media (max-width: 768px) {
             h2 {
                 font-size: 2em;
             }
         }
 
+        /* 入力エリア */
         .input-container {
             background: rgba(70, 70, 70, 0.7);
             padding: 15px;
@@ -68,6 +73,7 @@
             animation: fadeIn 1.5s ease-in-out;
         }
 
+        /* フォームのデザイン */
         label {
             font-size: 1.2em;
             font-weight: 600;
@@ -86,6 +92,7 @@
             margin-top: 10px;
         }
 
+        /* スライダー */
         input[type="range"] {
             width: 100%;
             -webkit-appearance: none;
@@ -102,6 +109,7 @@
             opacity: 1;
         }
 
+        /* 結果表示 */
         #result {
             font-size: 1.5em;
             margin-top: 15px;
@@ -110,6 +118,7 @@
             font-weight: 600;
         }
 
+        /* 結果カード */
         .result-card {
             background: rgba(70, 70, 70, 0.8);
             padding: 10px;
@@ -119,6 +128,7 @@
             animation: fadeIn 1s ease-in-out;
         }
 
+        /* アニメーション */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -147,6 +157,7 @@
                 document.getElementById("result").style.opacity = "1";
                 return;
             }
+
             let totalWater = (beans / 14 * 220).toFixed(1);
             let bloomWater = (beans / 14 * 20).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
@@ -154,13 +165,14 @@
             let resultElement = document.getElementById("result");
             resultElement.innerHTML = `
                 総湯量: ${totalWater} ml <br> 
-                蒸らし湯量（1分）: ${bloomWater} ml <br>
+                蒸らし湯（1分）: ${bloomWater} ml <br>
                 抽出量: ${extraction} ml
             `;
             resultElement.style.opacity = "1";
             resultElement.style.transform = "translateY(0)";
         }
 
+        // シークバーと数値入力の同期
         document.getElementById("beans").addEventListener("input", function() {
             document.getElementById("beanRange").value = this.value;
             calculate();
