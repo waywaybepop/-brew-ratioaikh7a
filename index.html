@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* 背景アニメーション */
+        /* 背景 */
         body::before {
             content: "";
             position: absolute;
@@ -69,7 +69,7 @@
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: 280px; /* 横幅を10%広げる */
+            width: 300px; /* 10%広げた */
             animation: fadeIn 1.5s ease-in-out;
         }
 
@@ -114,7 +114,10 @@
             font-size: 1.5em;
             margin-top: 15px;
             font-weight: 600;
-            white-space: nowrap; /* 改行を防ぐ */
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* 行間を調整 */
+            align-items: center;
         }
 
         /* 結果カード */
@@ -125,7 +128,12 @@
             display: inline-block;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             animation: fadeIn 1s ease-in-out;
-            width: 100%; /* 横幅を10%広げる */
+            width: 100%;
+        }
+
+        /* 各項目 */
+        .result-item {
+            white-space: nowrap; /* 画面サイズに応じて最適化 */
         }
 
         /* スマホ・タブレット・PC用メディアクエリ */
@@ -165,14 +173,14 @@
         <input type="number" id="beans" value="14" min="1">
         <br>
         <input type="range" id="beanRange" min="1" max="30" value="14">
-        <p id="result" class="result-card"></p>
+        <div id="result" class="result-card"></div>
     </div>
 
     <script>
         function calculate() {
             let beans = parseFloat(document.getElementById("beans").value);
             if (isNaN(beans) || beans <= 0) {
-                document.getElementById("result").innerHTML = "正しい数値を入力してください";
+                document.getElementById("result").innerHTML = "<p class='result-item'>正しい数値を入力してください</p>";
                 return;
             }
             let blooming = (beans / 14 * 20).toFixed(1);
@@ -180,9 +188,9 @@
             let extraction = (beans / 14 * 160).toFixed(1);
 
             document.getElementById("result").innerHTML = `
-                蒸らし湯量（1分）: ${blooming} ml　|　
-                総湯量（2分15秒）: ${water} ml　|　
-                抽出量: ${extraction} ml
+                <p class="result-item">蒸らし湯量（1分）: ${blooming} ml</p>
+                <p class="result-item">総湯量（2分15秒）: ${water} ml</p>
+                <p class="result-item">抽出量: ${extraction} ml</p>
             `;
         }
 
