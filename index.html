@@ -23,7 +23,7 @@
             overflow: hidden;
         }
 
-        /* 透過画像のアニメーション付き背景 */
+        /* 背景アニメーション */
         .bg-container {
             position: absolute;
             top: 50%;
@@ -39,7 +39,6 @@
             animation: waveEffect 6s linear infinite;
         }
 
-        /* 透過画像が波打つようなアニメーション */
         @keyframes waveEffect {
             0% { transform: translate(-50%, -50%) scale(1); }
             25% { transform: translate(-50%, -49%) scale(1.02); }
@@ -67,6 +66,47 @@
             align-items: center;
         }
 
+        /* 太字＆大きいフォントのラベル */
+        .label-bold {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* 数値入力欄のスタイル */
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 1.2em;
+            text-align: center;  /* 中央寄せ */
+            background-color: #444; /* 見やすいグレー */
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        /* シークバー（スライダー）のスタイル */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #777; /* グレー系に変更 */
+            border-radius: 5px;
+            outline: none;
+            margin-top: 5px;
+        }
+
+        /* シークバーの丸い部分（thumb）のスタイル */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #aaa; /* グレーに変更 */
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
         .result-card {
             background: rgba(70, 70, 70, 0.85);
             padding: 10px;
@@ -91,7 +131,7 @@
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
-        <label for="beans">豆の量 g</label>
+        <label class="label-bold" for="beans">豆㌘</label>  <!-- 太字＆サイズ大きめ -->
         <br>
         <input type="number" id="beans" value="14" min="1">
         <br>
