@@ -41,12 +41,11 @@
 
         @keyframes waveEffect {
             0% { transform: translate(-50%, -50%) scale(1); }
-            25% { transform: translate(-50%, -49%) scale(1.02); }
             50% { transform: translate(-50%, -50%) scale(1.05); }
-            75% { transform: translate(-50%, -51%) scale(1.02); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
+        /* 通常のタイトル */
         h2 {
             font-size: 2.5em;
             color: #bbb;
@@ -54,6 +53,13 @@
             font-family: 'Fredoka One', cursive;
             letter-spacing: 1.5px;
             margin-bottom: 20px;
+        }
+
+        /* スマホ画面のみタイトルを20%小さく */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 2em; /* 通常の80% */
+            }
         }
 
         .input-container {
@@ -66,11 +72,17 @@
             align-items: center;
         }
 
-        /* 太字＆大きいフォントのラベル */
+        /* 「豆」は大きく＆太字、「㌘」は小さく＆細字 */
         .label-bold {
             font-size: 1.4em;
             font-weight: bold;
             color: #fff;
+        }
+
+        .label-small {
+            font-size: 0.8em;
+            font-weight: normal;
+            color: #ccc;
         }
 
         /* 数値入力欄のスタイル */
@@ -78,7 +90,7 @@
             width: 100%;
             padding: 8px;
             font-size: 1.2em;
-            text-align: center;  /* 中央寄せ */
+            text-align: center;
             background-color: #444; /* 見やすいグレー */
             color: #fff;
             border: 1px solid #666;
@@ -131,7 +143,9 @@
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
-        <label class="label-bold" for="beans">豆㌘</label>  <!-- 太字＆サイズ大きめ -->
+        <label class="label-bold" for="beans">
+            豆<span class="label-small">㌘</span> <!-- ㌘のみ小さく細字 -->
+        </label>
         <br>
         <input type="number" id="beans" value="14" min="1">
         <br>
