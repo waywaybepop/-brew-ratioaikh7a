@@ -3,105 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brew Ratio Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <title>memechamame’s brew ratio calculating chart</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
+
         body {
-            background-color: black;
-            color: white;
-            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #1e1e1e;
+            color: #ccc;
+            font-family: 'Quicksand', sans-serif;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .container {
-            margin-top: 50px;
+        /* 背景アニメーション */
+        .bg-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background-image: url('https://github.com/waywaybepop/-brew-ratioaikh7a/blob/7c4fe4f0a8fb99d5900b968504e2f58c60bdd607/IMG_0910.jpeg?raw=true');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.6;
+            z-index: -1;
+            animation: waveEffect 6s linear infinite;
         }
 
-        .title {
-            font-size: 28px;
+        @keyframes waveEffect {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* タイトル */
+        h2 {
+            font-size: 2.5em;
+            color: #bbb;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            h2 { font-size: 2em; }
+        }
+
+        .input-container {
+            background: rgba(70, 70, 70, 0.7);
+            padding: 15px;
+            border-radius: 12px;
+            width: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .label-bold {
+            font-size: 1.4em;
             font-weight: bold;
+            color: #fff;
+        }
+
+        .label-small {
+            font-size: 0.8em;
+            font-weight: normal;
+            color: #ccc;
+        }
+
+        /* 数値入力欄のスタイル */
+        .input-box {
+            width: 80px; /* 最大4桁＋小数点に適したサイズ */
+            padding: 8px;
+            font-size: 1.5em;
+            text-align: center;
+            font-family: 'Fredoka One', cursive;
+            font-weight: bold;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 8px;
+            outline: none;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .input-box {
-            display: inline-block;
-            background-color: #333;
-            color: #d3d3d3; /* 少しグレーを混ぜた色 */
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 8px;
-            padding: 10px;
-            width: 80px; /* 4桁の入力にフィットするサイズ */
-            text-align: center;
-            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        /* シークバー */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #777;
+            border-radius: 5px;
+            outline: none;
+            margin-top: 5px;
         }
 
-        .slider {
-            width: 80%;
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #aaa;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .result-card {
+            background: rgba(70, 70, 70, 0.85);
+            padding: 10px;
+            border-radius: 10px;
+            width: auto;
+            max-width: 220px;
+            text-align: left;
             margin-top: 10px;
         }
 
-        .result-box {
-            background-color: rgba(50, 50, 50, 0.8);
-            display: inline-block;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            font-size: 18px;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-        }
-
-        .result-value {
+        .bold-value {
             font-weight: bold;
-            color: #ddd; /* 少し白に近いグレー */
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="title">珈琲豆</div>
-    <div class="input-box" id="coffeeAmount">14.0</div>
-    <input type="range" min="1" max="99" value="14" class="slider" id="slider">
+    <div class="bg-container"></div>
 
-    <div class="result-box">
-        <div class="result-item">
-            蒸らし湯量（1分）：<span class="result-value" id="bloomWater">20.0 ml</span>
-        </div>
-        <div class="result-item">
-            総湯量（2分15秒）：<span class="result-value" id="totalWater">220.0 ml</span>
-        </div>
-        <div class="result-item">
-            抽出量：<span class="result-value" id="extractedAmount">160.0 ml</span>
-        </div>
+    <h2>memechamame’s brew ratio calculating chart</h2>
+
+    <div class="input-container">
+        <label class="label-bold" for="beans">
+            豆<span class="label-small">㌘</span>
+        </label>
+        <br>
+        <input type="number" id="beans" class="input-box" value="14.0" min="1" step="1">
+        <br>
+        <input type="range" id="beanRange" min="1" max="30" value="14" step="1">
+        <div id="result" class="result-card"></div>
     </div>
-</div>
 
-<script>
-    const coffeeAmount = document.getElementById("coffeeAmount");
-    const slider = document.getElementById("slider");
-    const bloomWater = document.getElementById("bloomWater");
-    const totalWater = document.getElementById("totalWater");
-    const extractedAmount = document.getElementById("extractedAmount");
+    <script>
+        function calculate() {
+            let beans = parseFloat(document.getElementById("beans").value);
+            if (isNaN(beans) || beans <= 0) {
+                document.getElementById("result").innerHTML = "正しい数値を入力してください";
+                return;
+            }
+            let bloom = (beans / 14 * 20).toFixed(1);
+            let water = (beans / 14 * 220).toFixed(1);
+            let extraction = (beans / 14 * 160).toFixed(1);
 
-    slider.addEventListener("input", function() {
-        let coffee = parseInt(slider.value);
-        coffeeAmount.textContent = coffee.toFixed(1);
+            document.getElementById("result").innerHTML = `
+                <div class="result-item">蒸らし湯量（1分）: <span class="bold-value">${bloom} ml</span></div>
+                <div class="result-item">総湯量（2分15秒）: <span class="bold-value">${water} ml</span></div>
+                <div class="result-item">抽出量: <span class="bold-value">${extraction} ml</span></div>
+            `;
+        }
 
-        let bloom = (coffee * 20) / 14; // 14g基準で20ml
-        let total = (coffee * 220) / 14; // 14g基準で220ml
-        let extracted = (coffee * 160) / 14; // 14g基準で160ml
+        document.getElementById("beans").addEventListener("input", function() {
+            let value = parseFloat(this.value);
+            if (!isNaN(value)) {
+                this.value = value.toFixed(1); // 小数点第一位まで表示
+                document.getElementById("beanRange").value = Math.round(value); // スライダーは整数値
+                calculate();
+            }
+        });
 
-        bloomWater.textContent = bloom.toFixed(1) + " ml";
-        totalWater.textContent = total.toFixed(1) + " ml";
-        extractedAmount.textContent = extracted.toFixed(1) + " ml";
-    });
-</script>
+        document.getElementById("beanRange").addEventListener("input", function() {
+            let value = parseInt(this.value);
+            document.getElementById("beans").value = value.toFixed(1); // 小数点第一位まで表示
+            calculate();
+        });
+
+        window.onload = calculate;
+    </script>
 
 </body>
 </html>
