@@ -45,7 +45,7 @@
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* 通常のタイトル */
+        /* タイトル */
         h2 {
             font-size: 2.5em;
             color: #bbb;
@@ -55,11 +55,8 @@
             margin-bottom: 20px;
         }
 
-        /* スマホ画面のみタイトルを20%小さく */
         @media (max-width: 600px) {
-            h2 {
-                font-size: 2em; /* 通常の80% */
-            }
+            h2 { font-size: 2em; }
         }
 
         .input-container {
@@ -72,7 +69,6 @@
             align-items: center;
         }
 
-        /* 「豆」は大きく＆太字、「㌘」は小さく＆細字 */
         .label-bold {
             font-size: 1.4em;
             font-weight: bold;
@@ -86,35 +82,37 @@
         }
 
         /* 数値入力欄のスタイル */
-        input[type="number"] {
-            width: 100%;
+        .input-box {
+            width: 80px; /* 最大4桁＋小数点に適したサイズ */
             padding: 8px;
-            font-size: 1.2em;
+            font-size: 1.5em;
             text-align: center;
-            background-color: #444; /* 見やすいグレー */
+            font-family: 'Fredoka One', cursive;
+            font-weight: bold;
+            background-color: #444;
             color: #fff;
             border: 1px solid #666;
-            border-radius: 5px;
+            border-radius: 8px;
             outline: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* シークバー（スライダー）のスタイル */
+        /* シークバー */
         input[type="range"] {
             -webkit-appearance: none;
             width: 100%;
             height: 6px;
-            background: #777; /* グレー系に変更 */
+            background: #777;
             border-radius: 5px;
             outline: none;
             margin-top: 5px;
         }
 
-        /* シークバーの丸い部分（thumb）のスタイル */
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 16px;
             height: 16px;
-            background: #aaa; /* グレーに変更 */
+            background: #aaa;
             border-radius: 50%;
             cursor: pointer;
         }
@@ -137,19 +135,18 @@
 </head>
 <body>
 
-    <!-- 背景画像コンテナ -->
     <div class="bg-container"></div>
 
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
         <label class="label-bold" for="beans">
-            豆<span class="label-small">㌘</span> <!-- ㌘のみ小さく細字 -->
+            豆<span class="label-small">㌘</span>
         </label>
         <br>
-        <input type="number" id="beans" value="14" min="1">
+        <input type="number" id="beans" class="input-box" value="14.0" min="1" step="1">
         <br>
-        <input type="range" id="beanRange" min="1" max="30" value="14">
+        <input type="range" id="beanRange" min="1" max="30" value="14" step="1">
         <div id="result" class="result-card"></div>
     </div>
 
@@ -164,8 +161,7 @@
             let water = (beans / 14 * 220).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
 
-            let resultElement = document.getElementById("result");
-            resultElement.innerHTML = `
+            document.getElementById("result").innerHTML = `
                 <div class="result-item">蒸らし湯量（1分）: <span class="bold-value">${bloom} ml</span></div>
                 <div class="result-item">総湯量（2分15秒）: <span class="bold-value">${water} ml</span></div>
                 <div class="result-item">抽出量: <span class="bold-value">${extraction} ml</span></div>
@@ -173,12 +169,17 @@
         }
 
         document.getElementById("beans").addEventListener("input", function() {
-            document.getElementById("beanRange").value = this.value;
-            calculate();
+            let value = parseFloat(this.value);
+            if (!isNaN(value)) {
+                this.value = value.toFixed(1); // 小数点第一位まで表示
+                document.getElementById("beanRange").value = Math.round(value); // スライダーは整数値
+                calculate();
+            }
         });
 
         document.getElementById("beanRange").addEventListener("input", function() {
-            document.getElementById("beans").value = this.value;
+            let value = parseInt(this.value);
+            document.getElementById("beans").value = value.toFixed(1); // 小数点第一位まで表示
             calculate();
         });
 
