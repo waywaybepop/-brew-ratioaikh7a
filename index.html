@@ -23,7 +23,6 @@
             overflow: hidden;
         }
 
-        /* 背景アニメーション */
         .bg-container {
             position: absolute;
             top: 50%;
@@ -45,7 +44,6 @@
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* タイトル */
         h2 {
             font-size: 2.5em;
             color: #bbb;
@@ -56,23 +54,26 @@
         }
 
         @media (max-width: 600px) {
-            h2 { font-size: 2em; }
+            h2 {
+                font-size: 2em;
+            }
         }
 
         .input-container {
             background: rgba(70, 70, 70, 0.7);
             padding: 15px;
             border-radius: 12px;
-            width: 260px;
+            width: 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .label-bold {
-            font-size: 1.4em;
+            font-size: 1.6em;
             font-weight: bold;
             color: #fff;
+            font-family: 'Fredoka One', cursive;
         }
 
         .label-small {
@@ -81,23 +82,20 @@
             color: #ccc;
         }
 
-        /* 数値入力欄のスタイル */
-        .input-box {
-            width: 80px; /* 最大4桁＋小数点に適したサイズ */
+        input[type="number"] {
+            width: 80px;
             padding: 8px;
-            font-size: 1.5em;
-            text-align: center;
-            font-family: 'Fredoka One', cursive;
+            font-size: 1.4em;
             font-weight: bold;
+            text-align: center;
             background-color: #444;
-            color: #fff;
+            color: #ddd; /* 白から少しグレーを混ぜた色 */
             border: 1px solid #666;
-            border-radius: 8px;
+            border-radius: 5px;
             outline: none;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        /* シークバー */
         input[type="range"] {
             -webkit-appearance: none;
             width: 100%;
@@ -140,13 +138,13 @@
     <h2>memechamame’s brew ratio calculating chart</h2>
 
     <div class="input-container">
-        <label class=" Fredoka One" for="beans">
+        <label class="label-bold" for="beans">
             珈琲豆<span class="label-small">㌘</span>
         </label>
         <br>
-        <input type="number" id="beans" class="input-box" value="14.0" min="1" step="1">
+        <input type="number" id="beans" value="14.0" min="1" step="1">
         <br>
-        <input type="range" id="beanRange" min="1" max="30" value="14" step="1">
+        <input type="range" id="beanRange" min="1" max="30" value="14">
         <div id="result" class="result-card"></div>
     </div>
 
@@ -161,7 +159,8 @@
             let water = (beans / 14 * 220).toFixed(1);
             let extraction = (beans / 14 * 160).toFixed(1);
 
-            document.getElementById("result").innerHTML = `
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
                 <div class="result-item">蒸らし湯量（1分）: <span class="bold-value">${bloom} ml</span></div>
                 <div class="result-item">総湯量（2分15秒）: <span class="bold-value">${water} ml</span></div>
                 <div class="result-item">抽出量: <span class="bold-value">${extraction} ml</span></div>
@@ -169,17 +168,12 @@
         }
 
         document.getElementById("beans").addEventListener("input", function() {
-            let value = parseFloat(this.value);
-            if (!isNaN(value)) {
-                this.value = value.toFixed(1); // 小数点第一位まで表示
-                document.getElementById("beanRange").value = Math.round(value); // スライダーは整数値
-                calculate();
-            }
+            document.getElementById("beanRange").value = this.value;
+            calculate();
         });
 
         document.getElementById("beanRange").addEventListener("input", function() {
-            let value = parseInt(this.value);
-            document.getElementById("beans").value = value.toFixed(1); // 小数点第一位まで表示
+            document.getElementById("beans").value = this.value;
             calculate();
         });
 
